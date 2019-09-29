@@ -18,8 +18,7 @@ With this package you can define your own data contracts strictly and define **d
         # Pre-processors to standardize data
         def __user_name__(value):
             return value.capitalize()
-
----
+            
     args = {
         'user_name': 'ximi', 
         'age': 21, 
