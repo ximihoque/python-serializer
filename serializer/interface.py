@@ -23,6 +23,8 @@ class Interface:
                     else:
                         raise ValueError('Value of {} is {} where required type is {}' \
                                                  .format(key, type(value), required_type))
+            
+                    
         except KeyError as err:
             raise ValueError('{} not present in {}'.format(err, type(self)))
     
@@ -36,14 +38,20 @@ class Interface:
         
         # print (class_variables, class_functions, self.__class__.__dict__.keys())
         for key in class_functions:
-            self.kwargs[key] = self.__class__.__dict__[class_functions[key]](self.kwargs[key])
+            if key not in self.kwargs:
+                # Filling optional paramters with None
+                self.kwargs[key] = None
+            else:
+                # Applying Ops
+                self.kwargs[key] = self.__class__.__dict__[class_functions[key]](self.kwargs[key])
         
         
     def serialize(self):
         """
-        Serializes to JSON/dict format
+        Serialises to JSON/dict format
         """
         for key in self.kwargs:
             if self.kwargs[key].__class__.__base__ == self.__class__.__base__:
                 self.kwargs[key] = self.kwargs[key].serialize()
         return self.kwargs
+    
